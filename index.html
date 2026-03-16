@@ -1,0 +1,3557 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LÈRNA | ليرنا — المتجر الرقمي للطلاب</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ══════════════════════════════════════════
+   ROOT & RESET
+══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #F4EFEA;
+  --bg-light:    #FAF8F4;
+  --bg-card:     #FFFFFF;
+  --green:       #8FAF9D;
+  --green-deep:  #6B9280;
+  --green-pale:  #E8F0EC;
+  --gold:        #C9A96A;
+  --gold-light:  #DEC48E;
+  --gold-pale:   #F5EDD8;
+  --gold-glow:   rgba(201,169,106,0.15);
+  --dark:        #2B2B2B;
+  --dark-mid:    #4A4645;
+  --dark-soft:   #7A7470;
+  --white:       #FFFFFF;
+  --shadow-sm:   0 2px 12px rgba(43,43,43,0.06);
+  --shadow-md:   0 8px 32px rgba(43,43,43,0.10);
+  --shadow-lg:   0 20px 60px rgba(43,43,43,0.14);
+  --shadow-gold: 0 8px 40px rgba(201,169,106,0.20);
+  --radius-sm:   10px;
+  --radius-md:   18px;
+  --radius-lg:   28px;
+  --serif:       'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --serif-it:    'Cormorant Garamond', Georgia, serif;
+  --arabic:      'Cairo', 'Noto Naskh Arabic', sans-serif;
+  --sans:        'DM Sans', system-ui, sans-serif;
+  --transition:  0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--bg);
+  color: var(--dark);
+  font-family: var(--arabic);
+  line-height: 1.7;
+  overflow-x: hidden;
+  direction: rtl;
+}
+
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+ul { list-style: none; }
+
+/* ══════════════════════════════════════════
+   SCROLLBAR
+══════════════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+/* ══════════════════════════════════════════
+   LANGUAGE TOGGLE
+══════════════════════════════════════════ */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(201,169,106,0.10);
+  border: 1.5px solid rgba(201,169,106,0.28);
+  border-radius: 50px;
+  padding: 3px;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: border-color 0.2s;
+  user-select: none;
+}
+
+.lang-toggle:hover { border-color: var(--gold); }
+
+.lang-opt {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 5px 13px;
+  border-radius: 50px;
+  color: var(--dark-soft);
+  transition: color 0.25s;
+  position: relative;
+  z-index: 2;
+  line-height: 1;
+}
+
+.lang-toggle-pill {
+  position: absolute;
+  top: 3px;
+  height: calc(100% - 6px);
+  border-radius: 50px;
+  background: var(--gold);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(201,169,106,0.35);
+}
+
+/* Arabic active — pill on RIGHT side (RTL) */
+html[lang="ar"] .lang-toggle-pill {
+  right: 3px;
+  width: var(--pill-w-ar, 38px);
+}
+html[lang="ar"] .lang-opt.ar { color: var(--white); }
+html[lang="ar"] .lang-opt.en { color: var(--dark-soft); }
+
+/* English active — pill on LEFT side (LTR) */
+html[lang="en"] .lang-toggle-pill {
+  left: 3px;
+  right: auto;
+  width: var(--pill-w-en, 34px);
+}
+html[lang="en"] .lang-opt.en { color: var(--white); }
+html[lang="en"] .lang-opt.ar { color: var(--dark-soft); }
+
+/* Transition fade for language switch */
+body.lang-switching * {
+  transition: opacity 0.18s ease !important;
+  opacity: 0.4 !important;
+}
+
+/* English mode base adjustments */
+html[lang="en"] body {
+  font-family: var(--sans);
+  direction: ltr;
+}
+
+html[lang="en"] .navbar { direction: ltr; }
+html[lang="en"] .footer-col-title::after { right: auto; left: 0; }
+html[lang="en"] .footer-link:hover { padding-right: 0; padding-left: 4px; }
+
+/* ══════════════════════════════════════════
+   NOTIFICATION BAR
+══════════════════════════════════════════ */
+#notif-bar {
+  background: linear-gradient(90deg, var(--green-deep) 0%, var(--green) 50%, var(--green-deep) 100%);
+  background-size: 200% 100%;
+  animation: shimmerBar 4s ease infinite;
+  color: var(--white);
+  text-align: center;
+  padding: 10px 24px;
+  font-family: var(--arabic);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  position: relative;
+  z-index: 200;
+  transition: opacity 0.2s;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+#notif-bar:hover { opacity: 0.92; }
+
+.notif-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.notif-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 50px;
+  padding: 3px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(4px);
+}
+
+.notif-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notif-price .old { text-decoration: line-through; opacity: 0.65; }
+.notif-price .new { font-weight: 700; font-size: 1rem; color: var(--gold-light); }
+
+.notif-arrow {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  animation: bounceArrow 1.5s ease infinite;
+  display: inline-block;
+}
+
+@keyframes shimmerBar {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes bounceArrow {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-4px); }
+}
+
+/* ══════════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════════ */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(244, 239, 234, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(201,169,106,0.15);
+  padding: 0 clamp(20px, 5vw, 80px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+  transition: box-shadow var(--transition);
+}
+
+.navbar.scrolled { box-shadow: 0 4px 30px rgba(43,43,43,0.08); }
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.nav-logo-en {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--dark);
+}
+
+.nav-logo-sep {
+  color: var(--gold);
+  margin: 0 6px;
+  font-weight: 300;
+}
+
+.nav-logo-ar {
+  font-family: var(--arabic);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link {
+  font-family: var(--arabic);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--dark-mid);
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 18px;
+  height: 1.5px;
+  background: var(--gold);
+  border-radius: 2px;
+  transition: transform 0.25s;
+}
+
+.nav-link:hover { color: var(--dark); background: var(--gold-glow); }
+.nav-link:hover::after { transform: translateX(-50%) scaleX(1); }
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--green);
+  color: var(--white);
+  font-family: var(--arabic);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 50px;
+  transition: all var(--transition);
+  box-shadow: 0 4px 16px rgba(111,146,128,0.30);
+}
+
+.nav-cta:hover {
+  background: var(--green-deep);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(111,146,128,0.40);
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  z-index: 110;
+}
+
+.hamburger:hover { background: var(--gold-glow); }
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--dark);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ══════════════════════════════════════════
+   MOBILE NAV OVERLAY
+══════════════════════════════════════════ */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(244,239,234,0.97);
+  backdrop-filter: blur(20px);
+  z-index: 99;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 80px 40px 40px;
+}
+
+.mobile-nav.open { display: flex; }
+
+.mobile-nav-link {
+  font-family: var(--arabic);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--dark);
+  padding: 14px 30px;
+  text-align: center;
+  border-radius: 12px;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.mobile-nav-link:hover { background: var(--gold-glow); color: var(--gold); }
+
+.mobile-nav-cta {
+  margin-top: 20px;
+  background: var(--green);
+  color: var(--white);
+  font-family: var(--arabic);
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 16px 48px;
+  border-radius: 50px;
+  transition: all var(--transition);
+  box-shadow: 0 4px 20px rgba(111,146,128,0.30);
+}
+
+.mobile-nav-cta:hover { background: var(--green-deep); transform: scale(1.02); }
+
+/* ══════════════════════════════════════════
+   HERO SECTION
+══════════════════════════════════════════ */
+#hero {
+  position: relative;
+  min-height: calc(100vh - 108px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(60px, 10vh, 120px) clamp(20px, 5vw, 80px);
+  overflow: hidden;
+}
+
+/* Particle Canvas */
+#particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Gold Circular Decorations */
+.hero-rings {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+}
+
+.hero-ring-1 {
+  width: clamp(300px, 50vw, 600px);
+  height: clamp(300px, 50vw, 600px);
+  border-width: 0.75px;
+  opacity: 0.18;
+  animation: rotateSlow 60s linear infinite;
+  border-style: dashed;
+}
+
+.hero-ring-2 {
+  width: clamp(200px, 35vw, 420px);
+  height: clamp(200px, 35vw, 420px);
+  border-width: 0.5px;
+  opacity: 0.25;
+  animation: rotateReverse 45s linear infinite;
+}
+
+.hero-ring-3 {
+  width: clamp(100px, 18vw, 220px);
+  height: clamp(100px, 18vw, 220px);
+  border-width: 1px;
+  opacity: 0.35;
+  animation: rotateSlow 30s linear infinite;
+}
+
+.hero-ring-4 {
+  width: clamp(380px, 65vw, 780px);
+  height: clamp(380px, 65vw, 780px);
+  border-width: 0.4px;
+  opacity: 0.10;
+  animation: rotateReverse 80s linear infinite;
+  border-style: dotted;
+}
+
+/* Ring dots */
+.ring-dot {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+
+@keyframes rotateSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes rotateReverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.65);
+  border: 1px solid rgba(201,169,106,0.30);
+  border-radius: 50px;
+  padding: 7px 20px;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dark-mid);
+  margin-bottom: 28px;
+  backdrop-filter: blur(10px);
+  animation: fadeUp 0.8s 0.1s both;
+}
+
+.eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+.hero-title-wrap {
+  position: relative;
+  margin-bottom: 10px;
+  animation: fadeUp 0.9s 0.25s both;
+}
+
+.hero-title-en {
+  font-family: var(--serif);
+  font-size: clamp(3.2rem, 8vw, 7rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+  color: var(--dark);
+  display: block;
+}
+
+.hero-title-sep-line {
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 16px auto;
+}
+
+.hero-title-ar {
+  font-family: var(--arabic);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 700;
+  color: var(--gold);
+  display: block;
+  line-height: 1;
+}
+
+.hero-subtitle {
+  font-family: var(--serif-it);
+  font-style: italic;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: var(--dark-soft);
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+  animation: fadeUp 0.9s 0.4s both;
+}
+
+.hero-tagline {
+  font-family: var(--arabic);
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  color: var(--dark-mid);
+  margin-bottom: 46px;
+  animation: fadeUp 0.9s 0.5s both;
+}
+
+.hero-tagline strong {
+  color: var(--green-deep);
+  font-weight: 600;
+}
+
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  animation: fadeUp 0.9s 0.65s both;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--green);
+  color: var(--white);
+  font-family: var(--arabic);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 15px 34px;
+  border-radius: 50px;
+  transition: all var(--transition);
+  box-shadow: 0 6px 24px rgba(111,146,128,0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(111,146,128,0.45); }
+.btn-primary:hover::before { opacity: 1; }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: var(--dark);
+  font-family: var(--arabic);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 50px;
+  border: 1.5px solid var(--gold);
+  transition: all var(--transition);
+}
+
+.btn-outline:hover {
+  background: var(--gold);
+  color: var(--white);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-gold);
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: fadeUp 1s 1.2s both;
+}
+
+.scroll-label {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dark-soft);
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2s ease infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.15); }
+}
+
+/* ══════════════════════════════════════════
+   SECTION UTILITIES
+══════════════════════════════════════════ */
+.section {
+  padding: clamp(70px, 10vw, 120px) clamp(20px, 5vw, 80px);
+}
+
+.section-light { background: var(--bg-light); }
+.section-white { background: var(--white); }
+
+.section-head {
+  text-align: center;
+  margin-bottom: clamp(40px, 6vw, 70px);
+}
+
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.section-eyebrow::before,
+.section-eyebrow::after {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.section-title-ar {
+  display: block;
+  font-family: var(--arabic);
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-weight: 600;
+  color: var(--gold);
+  margin-top: 4px;
+}
+
+.section-desc {
+  font-family: var(--arabic);
+  font-size: 1rem;
+  color: var(--dark-soft);
+  max-width: 480px;
+  margin: 16px auto 0;
+  line-height: 1.8;
+}
+
+.gold-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 18px auto 0;
+}
+
+.gold-ornament-line {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+
+.gold-ornament-line.right { background: linear-gradient(90deg, var(--gold), transparent); }
+
+.gold-ornament-diamond {
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+
+/* ══════════════════════════════════════════
+   SERVICES SECTION
+══════════════════════════════════════════ */
+#services { background: var(--bg-light); }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+.service-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 32px 28px;
+  border: 1px solid rgba(201,169,106,0.10);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.service-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--gold));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(201,169,106,0.25);
+}
+
+.service-card:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* Featured / Graduation card */
+.service-card.featured {
+  background: linear-gradient(145deg, #FFFDF9 0%, #FDF6E8 100%);
+  border-color: rgba(201,169,106,0.35);
+  box-shadow: 0 4px 28px rgba(201,169,106,0.12);
+}
+
+.service-card.featured:hover {
+  box-shadow: 0 16px 48px rgba(201,169,106,0.25);
+}
+
+.card-badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  background: linear-gradient(135deg, #E85D3D, #C94B2C);
+  color: #fff;
+  font-family: var(--arabic);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 50px;
+  letter-spacing: 0.03em;
+  box-shadow: 0 3px 12px rgba(200,75,44,0.35);
+  animation: badgePop 2s ease infinite;
+}
+
+@keyframes badgePop {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+.card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--green-pale);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.service-card:hover .card-icon { transform: scale(1.1) rotate(-3deg); }
+
+.featured .card-icon {
+  background: var(--gold-pale);
+}
+
+.card-title {
+  font-family: var(--arabic);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 10px;
+}
+
+.card-desc {
+  font-family: var(--arabic);
+  font-size: 0.875rem;
+  color: var(--dark-soft);
+  line-height: 1.75;
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.card-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 18px;
+  border-top: 1px solid rgba(201,169,106,0.12);
+  margin-top: auto;
+}
+
+.card-price {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--green-deep);
+}
+
+.card-price-unit {
+  font-family: var(--arabic);
+  font-size: 0.78rem;
+  color: var(--dark-soft);
+  font-weight: 400;
+}
+
+.card-order-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--green-pale);
+  color: var(--green-deep);
+  font-family: var(--arabic);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 50px;
+  transition: all 0.25s;
+  border: 1px solid transparent;
+}
+
+.card-order-btn:hover, .service-card:hover .card-order-btn {
+  background: var(--green);
+  color: var(--white);
+}
+
+.featured .card-order-btn {
+  background: var(--gold-pale);
+  color: var(--gold);
+  border-color: rgba(201,169,106,0.2);
+}
+
+.featured:hover .card-order-btn, .featured .card-order-btn:hover {
+  background: var(--gold);
+  color: var(--white);
+}
+
+/* ══════════════════════════════════════════
+   PORTFOLIO SECTION
+══════════════════════════════════════════ */
+#portfolio { background: var(--bg); }
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto;
+  gap: 16px;
+}
+
+.portfolio-item {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+}
+
+.portfolio-item:hover { box-shadow: var(--shadow-md); }
+
+.portfolio-item:nth-child(1) { grid-column: span 7; grid-row: span 2; }
+.portfolio-item:nth-child(2) { grid-column: span 5; }
+.portfolio-item:nth-child(3) { grid-column: span 5; }
+.portfolio-item:nth-child(4) { grid-column: span 4; }
+.portfolio-item:nth-child(5) { grid-column: span 4; }
+.portfolio-item:nth-child(6) { grid-column: span 4; }
+
+.portfolio-cover {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.portfolio-item:hover .portfolio-cover { transform: scale(1.06); }
+
+.portfolio-emoji { font-size: 2.8rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15)); }
+.portfolio-cat {
+  font-family: var(--arabic);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  color: white;
+}
+
+.portfolio-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(43,43,43,0.75) 0%, rgba(43,43,43,0.1) 50%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+
+.portfolio-item:hover .portfolio-overlay { opacity: 1; }
+
+.portfolio-overlay h4 {
+  font-family: var(--arabic);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.portfolio-overlay p {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.7);
+}
+
+.portfolio-overlay .view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.20);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  font-family: var(--arabic);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 50px;
+  margin-top: 10px;
+  width: fit-content;
+  transition: background 0.2s;
+}
+
+.portfolio-overlay .view-btn:hover { background: rgba(255,255,255,0.35); }
+
+/* ══════════════════════════════════════════
+   WHY LÈRNA
+══════════════════════════════════════════ */
+#why { background: var(--bg-light); }
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.why-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 36px 28px;
+  text-align: center;
+  border: 1px solid rgba(201,169,106,0.10);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.why-card::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,169,106,0.08);
+  pointer-events: none;
+}
+
+.why-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(201,169,106,0.22);
+}
+
+.why-icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-pale), var(--gold-pale));
+  border: 1px solid rgba(201,169,106,0.20);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin: 0 auto 22px;
+  transition: transform 0.35s ease;
+}
+
+.why-card:hover .why-icon-wrap { transform: scale(1.1) rotate(5deg); }
+
+.why-title {
+  font-family: var(--arabic);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 10px;
+}
+
+.why-title-en {
+  display: block;
+  font-family: var(--serif);
+  font-size: 0.78rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--gold);
+  margin-bottom: 14px;
+  letter-spacing: 0.04em;
+}
+
+.why-desc {
+  font-family: var(--arabic);
+  font-size: 0.875rem;
+  color: var(--dark-soft);
+  line-height: 1.75;
+}
+
+/* ══════════════════════════════════════════
+   PACKAGES SECTION
+══════════════════════════════════════════ */
+#packages { background: var(--bg); overflow: hidden; }
+
+.packages-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.package-decoration {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(201,169,106,0.12);
+  pointer-events: none;
+}
+
+.package-decoration-1 { width: 400px; height: 400px; top: -150px; right: -100px; }
+.package-decoration-2 { width: 280px; height: 280px; bottom: -80px; left: -60px; }
+.package-decoration-3 { width: 160px; height: 160px; top: 50px; left: -30px; opacity: 0.5; }
+
+.package-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: clamp(36px, 6vw, 60px);
+  border: 1px solid rgba(201,169,106,0.25);
+  box-shadow: var(--shadow-gold);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.package-card-glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(201,169,106,0.08), rgba(143,175,157,0.06));
+  pointer-events: none;
+}
+
+.package-top-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--green), var(--gold), var(--green));
+}
+
+.package-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gold-pale);
+  border: 1px solid rgba(201,169,106,0.3);
+  border-radius: 50px;
+  padding: 6px 18px;
+  font-family: var(--arabic);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 24px;
+  letter-spacing: 0.03em;
+}
+
+.package-name-en {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+
+.package-name-ar {
+  font-family: var(--arabic);
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 600;
+  color: var(--dark-mid);
+  margin-bottom: 32px;
+}
+
+.package-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 36px;
+  background: var(--bg-light);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(201,169,106,0.10);
+  overflow: hidden;
+}
+
+.package-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(201,169,106,0.08);
+  text-align: right;
+  transition: background 0.2s;
+}
+
+.package-item:last-child { border-bottom: none; }
+.package-item:hover { background: var(--gold-pale); }
+
+.package-item-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--white);
+  border: 1px solid rgba(201,169,106,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.package-item-info { flex: 1; }
+.package-item-name {
+  font-family: var(--arabic);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.package-item-name-en {
+  font-family: var(--serif-it);
+  font-size: 0.75rem;
+  color: var(--dark-soft);
+  font-style: italic;
+}
+
+.package-item-check {
+  color: var(--green);
+  font-size: 1rem;
+}
+
+.package-pricing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.package-price-now {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.price-label {
+  font-family: var(--arabic);
+  font-size: 0.78rem;
+  color: var(--dark-soft);
+  margin-bottom: 4px;
+}
+
+.price-amount {
+  font-family: var(--serif);
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: var(--green-deep);
+  line-height: 1;
+}
+
+.price-currency {
+  font-size: 1.2rem;
+  vertical-align: super;
+  font-weight: 500;
+}
+
+.price-divider {
+  width: 1px;
+  height: 50px;
+  background: rgba(201,169,106,0.2);
+}
+
+.price-value-note {
+  font-family: var(--arabic);
+  font-size: 0.85rem;
+  color: var(--dark-soft);
+  text-align: center;
+}
+
+.price-value-note span {
+  display: block;
+  font-size: 1.2rem;
+  color: var(--gold);
+  font-weight: 700;
+  text-decoration: line-through;
+  text-decoration-color: rgba(201,169,106,0.5);
+}
+
+/* ══════════════════════════════════════════
+   ORDER CTA SECTION
+══════════════════════════════════════════ */
+#order {
+  position: relative;
+  background: linear-gradient(135deg, var(--green-deep) 0%, var(--green) 40%, #7BA899 100%);
+  padding: clamp(70px, 10vw, 120px) clamp(20px, 5vw, 80px);
+  text-align: center;
+  overflow: hidden;
+}
+
+.order-bg-rings {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.order-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.order-ring-1 { width: 600px; height: 600px; top: -200px; right: -150px; }
+.order-ring-2 { width: 400px; height: 400px; bottom: -150px; left: -100px; }
+.order-ring-3 { width: 200px; height: 200px; top: 50%; left: 20%; transform: translateY(-50%); }
+
+.order-content { position: relative; z-index: 1; max-width: 580px; margin: 0 auto; }
+
+.order-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 20px;
+}
+
+.order-eyebrow::before, .order-eyebrow::after {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 1px;
+  background: rgba(255,255,255,0.35);
+}
+
+.order-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+  line-height: 1.15;
+}
+
+.order-title-ar {
+  display: block;
+  font-family: var(--arabic);
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 20px;
+}
+
+.order-desc {
+  font-family: var(--arabic);
+  font-size: 1rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 38px;
+  line-height: 1.8;
+}
+
+.btn-white {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  color: var(--green-deep);
+  font-family: var(--arabic);
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 16px 38px;
+  border-radius: 50px;
+  transition: all var(--transition);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+}
+
+.btn-white:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.25);
+  background: var(--gold-light);
+  color: var(--dark);
+}
+
+.order-note {
+  margin-top: 18px;
+  font-family: var(--arabic);
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.55);
+}
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.7);
+  padding: clamp(50px, 7vw, 80px) clamp(20px, 5vw, 80px) 0;
+}
+
+.footer-main {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 50px;
+  padding-bottom: clamp(40px, 5vw, 60px);
+}
+
+.footer-brand-col .footer-logo-en {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.05em;
+  display: block;
+}
+
+.footer-brand-col .footer-logo-ar {
+  font-family: var(--arabic);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.footer-tagline {
+  font-family: var(--serif-it);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 24px;
+}
+
+.footer-desc {
+  font-family: var(--arabic);
+  font-size: 0.875rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 28px;
+}
+
+.social-links {
+  display: flex;
+  gap: 12px;
+}
+
+.social-link {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(201,169,106,0.20);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.6);
+  transition: all 0.25s;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.social-link:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--white);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(201,169,106,0.35);
+}
+
+.footer-col-title {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.04em;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.footer-col-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 24px;
+  height: 1.5px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+
+.footer-links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-link {
+  font-family: var(--arabic);
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.48);
+  transition: color 0.2s, padding-right 0.2s;
+  display: inline-block;
+}
+
+.footer-link:hover { color: var(--gold); padding-right: 4px; }
+
+.footer-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.25;
+  margin: 0 -80px;
+}
+
+.footer-bottom {
+  padding: 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-copyright {
+  font-family: var(--arabic);
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.3);
+}
+
+.footer-love {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.04em;
+}
+
+/* ══════════════════════════════════════════
+   MODAL
+══════════════════════════════════════════ */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(30,26,24,0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s;
+}
+
+.modal-backdrop.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-box {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: clamp(32px, 5vw, 56px);
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  transform: translateY(30px) scale(0.97);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.22);
+  border: 1px solid rgba(201,169,106,0.20);
+  text-align: center;
+}
+
+.modal-backdrop.visible .modal-box {
+  transform: translateY(0) scale(1);
+}
+
+.modal-top-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--green), var(--gold), var(--green));
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.modal-close {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-light);
+  border: 1px solid rgba(201,169,106,0.20);
+  color: var(--dark-soft);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.modal-close:hover { background: var(--gold); color: var(--white); border-color: var(--gold); transform: scale(1.1); }
+
+.modal-icon-ring {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,169,106,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  position: relative;
+}
+
+.modal-icon-ring::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,169,106,0.12);
+}
+
+.modal-icon {
+  font-size: 2.8rem;
+}
+
+.modal-title-en {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+
+.modal-title-ar {
+  font-family: var(--arabic);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 28px;
+}
+
+.modal-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.modal-ornament-line {
+  width: 30px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+
+.modal-ornament-line.right { background: linear-gradient(90deg, var(--gold), transparent); }
+
+.modal-ornament-diamond {
+  width: 5px;
+  height: 5px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  border-radius: 1px;
+}
+
+.modal-price-section {
+  background: linear-gradient(135deg, var(--bg-light), var(--gold-pale));
+  border: 1px solid rgba(201,169,106,0.20);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.modal-price-original {
+  font-family: var(--arabic);
+  font-size: 0.9rem;
+  color: var(--dark-soft);
+  margin-bottom: 8px;
+}
+
+.modal-price-original s {
+  color: #C0A0A0;
+  font-weight: 600;
+}
+
+.modal-price-offer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.offer-label {
+  background: linear-gradient(135deg, #E85D3D, #C94B2C);
+  color: white;
+  font-family: var(--arabic);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 50px;
+}
+
+.offer-amount {
+  font-family: var(--serif);
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--green-deep);
+  line-height: 1;
+}
+
+.offer-currency {
+  font-size: 1rem;
+  vertical-align: super;
+}
+
+.modal-price-note {
+  font-family: var(--arabic);
+  font-size: 0.82rem;
+  color: var(--dark-soft);
+}
+
+.modal-desc {
+  font-family: var(--arabic);
+  font-size: 0.9rem;
+  color: var(--dark-soft);
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+.modal-features {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.modal-feature {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--green-pale);
+  color: var(--green-deep);
+  font-family: var(--arabic);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 50px;
+  border: 1px solid rgba(111,146,128,0.2);
+}
+
+/* ══════════════════════════════════════════
+   ANIMATIONS / SCROLL REVEAL
+══════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.65s cubic-bezier(0.25,0.46,0.45,0.94),
+              transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+  .portfolio-item:nth-child(n) { grid-column: span 1; grid-row: span 1; }
+  .footer-main { grid-template-columns: 1fr 1fr; }
+  .footer-brand-col { grid-column: span 2; }
+}
+
+@media (max-width: 700px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .services-grid { grid-template-columns: 1fr; }
+  .portfolio-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .portfolio-cover { min-height: 150px; }
+  .footer-main { grid-template-columns: 1fr; }
+  .footer-brand-col { grid-column: span 1; }
+  .footer-divider { margin: 0 -20px; }
+  .package-items { border-radius: var(--radius-sm); }
+}
+
+@media (max-width: 480px) {
+  .hero-buttons { flex-direction: column; align-items: center; }
+  .hero-buttons a, .hero-buttons button { width: 100%; justify-content: center; }
+  .portfolio-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; align-items: center; text-align: center; }
+  .notif-inner { flex-direction: column; gap: 6px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     NOTIFICATION BAR
+══════════════════════════════════════════ -->
+<div id="notif-bar" onclick="scrollToGrad()" role="button" tabindex="0">
+  <div class="notif-inner">
+    <span class="notif-badge" data-ar="🎓 عرض خاص" data-en="🎓 Special Offer">🎓 عرض خاص</span>
+    <span data-ar="مشروع التخرج الثانوي للمجموعات" data-en="Group Discount · Graduation Projects">مشروع التخرج الثانوي للمجموعات</span>
+    <span class="notif-price">
+      <span class="old" data-ar="500 ريال" data-en="500 SAR">500 ريال</span>
+      <span>&rarr;</span>
+      <span class="new" data-ar="من 200 ريال فقط" data-en="From 200 SAR only">من 200 ريال فقط</span>
+    </span>
+    <span class="notif-arrow" data-ar="← اضغط للتفاصيل" data-en="Click for details →">← اضغط للتفاصيل</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════════ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-logo">
+    <span class="nav-logo-en">LÈRNA</span>
+    <span class="nav-logo-sep">|</span>
+    <span class="nav-logo-ar">ليرنا</span>
+  </div>
+
+  <div class="nav-links">
+    <a href="#services" class="nav-link" data-ar="الخدمات" data-en="Services">الخدمات</a>
+    <a href="#pricing" class="nav-link" data-ar="الأسعار" data-en="Pricing">الأسعار</a>
+    <a href="#portfolio" class="nav-link" data-ar="أعمالنا" data-en="Portfolio">أعمالنا</a>
+    <a href="#why" class="nav-link" data-ar="لماذا ليرنا" data-en="Why LÈRNA">لماذا ليرنا</a>
+    <a href="#packages" class="nav-link" data-ar="الباقات" data-en="Packages">الباقات</a>
+    <a href="#payment" class="nav-link" data-ar="الدفع" data-en="Payment">الدفع</a>
+    <a href="#order" class="nav-cta" data-ar="اطلب الآن ✦" data-en="Order Now ✦">اطلب الآن ✦</a>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="lang-toggle" id="lang-toggle" onclick="toggleLang()" title="Switch Language">
+      <span class="lang-opt en">EN</span>
+      <span class="lang-opt ar">ع</span>
+      <div class="lang-toggle-pill" id="lang-pill"></div>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="القائمة" onclick="toggleMobileNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#services" class="mobile-nav-link" onclick="closeMobileNav()" data-ar="الخدمات" data-en="Services">الخدمات</a>
+  <a href="#pricing" class="mobile-nav-link" onclick="closeMobileNav()" data-ar="الأسعار" data-en="Pricing">الأسعار</a>
+  <a href="#portfolio" class="mobile-nav-link" onclick="closeMobileNav()" data-ar="أعمالنا" data-en="Portfolio">أعمالنا</a>
+  <a href="#why" class="mobile-nav-link" onclick="closeMobileNav()" data-ar="لماذا ليرنا" data-en="Why LÈRNA">لماذا ليرنا</a>
+  <a href="#packages" class="mobile-nav-link" onclick="closeMobileNav()" data-ar="الباقات" data-en="Packages">الباقات</a>
+  <a href="#payment" class="mobile-nav-link" onclick="closeMobileNav()" data-ar="الدفع" data-en="Payment">الدفع</a>
+  <a href="#order" class="mobile-nav-cta" onclick="closeMobileNav()" data-ar="اطلب الآن ✦" data-en="Order Now ✦">اطلب الآن ✦</a>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HERO SECTION
+══════════════════════════════════════════ -->
+<section id="hero">
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="hero-rings">
+    <div class="hero-ring hero-ring-4"></div>
+    <div class="hero-ring hero-ring-1">
+      <div class="ring-dot" style="top:-3px;left:50%;transform:translateX(-50%)"></div>
+      <div class="ring-dot" style="bottom:-3px;left:50%;transform:translateX(-50%)"></div>
+      <div class="ring-dot" style="right:-3px;top:50%;transform:translateY(-50%)"></div>
+      <div class="ring-dot" style="left:-3px;top:50%;transform:translateY(-50%)"></div>
+    </div>
+    <div class="hero-ring hero-ring-2"></div>
+    <div class="hero-ring hero-ring-3"></div>
+  </div>
+
+  <div class="hero-eyebrow">
+    <span class="eyebrow-dot"></span>
+    Digital Store &nbsp;·&nbsp; Student Services
+    <span class="eyebrow-dot"></span>
+  </div>
+
+  <div class="hero-title-wrap">
+    <span class="hero-title-en">LÈRNA</span>
+    <span class="hero-title-sep-line"></span>
+    <span class="hero-title-ar" data-ar="ليرنا" data-en="">ليرنا</span>
+  </div>
+
+  <p class="hero-subtitle">Digital Store | Student Services</p>
+
+  <p class="hero-tagline">
+    ✦ &nbsp;<strong data-ar="طريقك نحو النجاح الرقمي" data-en="Your Path to Digital Success">طريقك نحو النجاح الرقمي</strong>&nbsp; ✦<br>
+    <span style="font-size:0.85em;font-weight:400;color:var(--dark-soft)" data-ar="Your Path to Digital Success" data-en="">Your Path to Digital Success</span>
+  </p>
+
+  <div class="hero-buttons">
+    <a href="#services" class="btn-primary" data-ar="استكشف الخدمات" data-en="Explore Services">استكشف الخدمات</a>
+    <a href="#order" class="btn-outline" data-ar="اطلب الآن" data-en="Order Now">اطلب الآن</a>
+  </div>
+
+  <div class="hero-scroll">
+    <span class="scroll-label">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SERVICES SECTION
+══════════════════════════════════════════ -->
+<section id="services" class="section section-light">
+  <div class="section-head reveal">
+    <div class="section-eyebrow">Our Services</div>
+    <h2 class="section-title">
+      <span data-ar="خدماتنا الطلابية" data-en="Student Services">خدماتنا الطلابية</span>
+      <span class="section-title-ar" data-ar="Student Digital Services" data-en="">Student Digital Services</span>
+    </h2>
+    <div class="gold-ornament">
+      <div class="gold-ornament-line"></div>
+      <div class="gold-ornament-diamond"></div>
+      <div class="gold-ornament-line right"></div>
+    </div>
+    <p class="section-desc" data-ar="نقدم تصاميم أكاديمية احترافية مصممة خصيصاً لاحتياجات الطلاب بأسعار مناسبة وجودة راقية" data-en="We deliver professional academic designs crafted for students — premium quality at accessible prices.">نقدم تصاميم أكاديمية احترافية مصممة خصيصاً لاحتياجات الطلاب بأسعار مناسبة وجودة راقية</p>
+  </div>
+
+  <div class="services-grid">
+
+    <!-- Graduation — Featured — Plan: 200–500 ريال / 3–7 أيام -->
+    <div class="service-card featured reveal" id="grad-card" onclick="openModal()" tabindex="0" role="button">
+      <span class="card-badge" data-ar="🔥 أعلى قيمة" data-en="🔥 Top Value">🔥 أعلى قيمة</span>
+      <div class="card-icon">🎓</div>
+      <h3 class="card-title" data-ar="مشروع تخرج (ثانوي)" data-en="Graduation Project (High School)">مشروع تخرج (ثانوي)</h3>
+      <p class="card-desc" data-ar="مشروع تخرج مدرسي متكامل بتصميم احترافي — شامل البحث والعرض والإخراج الفني النهائي. تسليم خلال 3–7 أيام." data-en="Complete high-school graduation project with professional design — research, presentation & final production. Delivery: 3–7 days.">مشروع تخرج مدرسي متكامل بتصميم احترافي — شامل البحث والعرض والإخراج الفني النهائي. تسليم خلال 3–7 أيام.</p>
+      <div class="card-price-row">
+        <div>
+          <div class="card-price">200–500 <small style="font-size:0.7em;color:var(--dark-soft)">ريال</small></div>
+          <div class="card-price-unit" data-ar="حسب حجم المشروع" data-en="Based on project scope">حسب حجم المشروع</div>
+        </div>
+        <button class="card-order-btn" data-ar="اطلب الآن →" data-en="Order Now →">اطلب الآن →</button>
+      </div>
+    </div>
+
+    <!-- Brochures — Plan: 20–40 ريال / 6–12 ساعة -->
+    <div class="service-card reveal reveal-delay-1">
+      <div class="card-icon">📄</div>
+      <h3 class="card-title" data-ar="مطوية تعليمية" data-en="Educational Brochure">مطوية تعليمية</h3>
+      <p class="card-desc" data-ar="مطويات تعليمية بتصميم أنيق ومحتوى منظم يناسب جميع المواد والمراحل. تسليم 6–12 ساعة." data-en="Elegant educational brochures with structured content for all subjects. Delivery: 6–12 hours.">مطويات تعليمية بتصميم أنيق ومحتوى منظم يناسب جميع المواد والمراحل. تسليم 6–12 ساعة.</p>
+      <div class="card-price-row">
+        <div>
+          <div class="card-price">20–40 <small style="font-size:0.7em;color:var(--dark-soft)">ريال</small></div>
+          <div class="card-price-unit" data-ar="منتج دخول مثالي" data-en="Perfect entry product">منتج دخول مثالي</div>
+        </div>
+        <a href="#order" class="card-order-btn">اطلب →</a>
+      </div>
+    </div>
+
+    <!-- Worksheets — Plan: 15–30 ريال / 2–6 ساعات -->
+    <div class="service-card reveal reveal-delay-2">
+      <div class="card-icon">📝</div>
+      <h3 class="card-title" data-ar="أوراق عمل" data-en="Worksheets">أوراق عمل</h3>
+      <p class="card-desc" data-ar="أوراق عمل تفاعلية ومنظمة لجميع المواد والصفوف الدراسية. حجم طلب مرتفع. تسليم 2–6 ساعات." data-en="Interactive, structured worksheets for all grades and subjects. High demand. Delivery: 2–6 hours.">أوراق عمل تفاعلية ومنظمة لجميع المواد والصفوف الدراسية. حجم طلب مرتفع. تسليم 2–6 ساعات.</p>
+      <div class="card-price-row">
+        <div>
+          <div class="card-price">15–30 <small style="font-size:0.7em;color:var(--dark-soft)">ريال</small></div>
+          <div class="card-price-unit" data-ar="للورقة الواحدة" data-en="per worksheet">للورقة الواحدة</div>
+        </div>
+        <a href="#order" class="card-order-btn">اطلب →</a>
+      </div>
+    </div>
+
+    <!-- Knowledge Maps — Plan: 15–35 ريال / 3–8 ساعات -->
+    <div class="service-card reveal reveal-delay-3">
+      <div class="card-icon">🗺️</div>
+      <h3 class="card-title" data-ar="خارطة معرفية / ذهنية" data-en="Knowledge / Mind Map">خارطة معرفية / ذهنية</h3>
+      <p class="card-desc" data-ar="خرائط ذهنية ومعرفية توضح العلاقات بين المفاهيم بصرياً. سريعة التنفيذ — تسليم 3–8 ساعات." data-en="Visual mind maps clarifying concept relationships. Fast to produce. Delivery: 3–8 hours.">خرائط ذهنية ومعرفية توضح العلاقات بين المفاهيم بصرياً. سريعة التنفيذ — تسليم 3–8 ساعات.</p>
+      <div class="card-price-row">
+        <div>
+          <div class="card-price">15–35 <small style="font-size:0.7em;color:var(--dark-soft)">ريال</small></div>
+          <div class="card-price-unit" data-ar="سريع التنفيذ" data-en="Quick to produce">سريع التنفيذ</div>
+        </div>
+        <a href="#order" class="card-order-btn">اطلب →</a>
+      </div>
+    </div>
+
+    <!-- Book Summaries — Plan: 60–150 ريال / 2–5 أيام -->
+    <div class="service-card reveal">
+      <div class="card-icon">📚</div>
+      <h3 class="card-title" data-ar="تلخيص كتاب" data-en="Book Summary">تلخيص كتاب</h3>
+      <p class="card-desc" data-ar="ملخصات كتب منظمة وشاملة بأسلوب واضح يساعد على الاستيعاب السريع. السعر حسب الحجم، تسليم 2–5 أيام." data-en="Comprehensive, clearly structured book summaries for fast comprehension. Price by volume. Delivery: 2–5 days.">ملخصات كتب منظمة وشاملة بأسلوب واضح يساعد على الاستيعاب السريع. السعر حسب الحجم، تسليم 2–5 أيام.</p>
+      <div class="card-price-row">
+        <div>
+          <div class="card-price">60–150 <small style="font-size:0.7em;color:var(--dark-soft)">ريال</small></div>
+          <div class="card-price-unit" data-ar="حسب حجم الكتاب" data-en="Based on book size">حسب حجم الكتاب</div>
+        </div>
+        <a href="#order" class="card-order-btn">اطلب →</a>
+      </div>
+    </div>
+
+    <!-- Presentation — Plan: 80–200 ريال / 1–3 أيام 🔥 مطلوب -->
+    <div class="service-card reveal reveal-delay-1" style="position:relative">
+      <span class="card-badge" style="background:linear-gradient(135deg,#1a7a6e,#0f5e54)" data-ar="🔥 مطلوب" data-en="🔥 In Demand">🔥 مطلوب</span>
+      <div class="card-icon">🖥️</div>
+      <h3 class="card-title" data-ar="عرض تقديمي (PPT)" data-en="Presentation (PPT)">عرض تقديمي (PPT)</h3>
+      <p class="card-desc" data-ar="عروض تقديمية احترافية بتصميم عصري تناسب المشاريع المدرسية والأكاديمية. تسليم 1–3 أيام." data-en="Professional presentations with modern design for school & academic projects. Delivery: 1–3 days.">عروض تقديمية احترافية بتصميم عصري تناسب المشاريع المدرسية والأكاديمية. تسليم 1–3 أيام.</p>
+      <div class="card-price-row">
+        <div>
+          <div class="card-price">80–200 <small style="font-size:0.7em;color:var(--dark-soft)">ريال</small></div>
+          <div class="card-price-unit" data-ar="حسب عدد الشرائح" data-en="Based on slide count">حسب عدد الشرائح</div>
+        </div>
+        <a href="#order" class="card-order-btn">اطلب →</a>
+      </div>
+    </div>
+
+    <!-- Infographic — Plan: 50–120 ريال / 1–2 يوم (أعلى ربحية) -->
+    <div class="service-card reveal reveal-delay-2">
+      <div class="card-icon">📊</div>
+      <h3 class="card-title" data-ar="تصميم إنفوجرافيك" data-en="Infographic Design">تصميم إنفوجرافيك</h3>
+      <p class="card-desc" data-ar="إنفوجرافيك معلوماتي يوصل الأفكار بأسلوب بصري مبتكر. الأعلى ربحية بالنسبة للوقت — تسليم 1–2 يوم." data-en="Informative infographics conveying ideas visually. Highest value-per-hour — Delivery: 1–2 days.">إنفوجرافيك معلوماتي يوصل الأفكار بأسلوب بصري مبتكر. الأعلى ربحية بالنسبة للوقت — تسليم 1–2 يوم.</p>
+      <div class="card-price-row">
+        <div>
+          <div class="card-price">50–120 <small style="font-size:0.7em;color:var(--dark-soft)">ريال</small></div>
+          <div class="card-price-unit" data-ar="أعلى ربحية / وقت" data-en="Best value per hour">أعلى ربحية / وقت</div>
+        </div>
+        <a href="#order" class="card-order-btn">اطلب →</a>
+      </div>
+    </div>
+
+    <!-- Research — Plan: 120–350 ريال / 3–7 أيام 🔥 مطلوب -->
+    <div class="service-card reveal reveal-delay-3" style="position:relative">
+      <span class="card-badge" style="background:linear-gradient(135deg,#1a7a6e,#0f5e54)">🔥 مطلوب</span>
+      <div class="card-icon">🔬</div>
+      <h3 class="card-title" data-ar="بحث علمي" data-en="Academic Research">بحث علمي</h3>
+      <p class="card-desc" data-ar="بحوث أكاديمية ومدرسية موثقة ومنسقة بأسلوب علمي دقيق وفق أحدث المعايير. تسليم 3–7 أيام." data-en="Documented, well-formatted academic research following current standards. Delivery: 3–7 days.">بحوث أكاديمية ومدرسية موثقة ومنسقة بأسلوب علمي دقيق وفق أحدث المعايير. تسليم 3–7 أيام.</p>
+      <div class="card-price-row">
+        <div>
+          <div class="card-price">120–350 <small style="font-size:0.7em;color:var(--dark-soft)">ريال</small></div>
+          <div class="card-price-unit" data-ar="حسب حجم البحث" data-en="Based on research scope">حسب حجم البحث</div>
+        </div>
+        <a href="#order" class="card-order-btn">اطلب →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     PRICING TABLE SECTION (from plan)
+══════════════════════════════════════════ -->
+<section id="pricing" class="section section-white">
+  <div class="section-head reveal">
+    <div class="section-eyebrow">Pricing</div>
+    <h2 class="section-title">
+      <span data-ar="جدول الأسعار الكامل" data-en="Full Pricing Table">جدول الأسعار الكامل</span>
+      <span class="section-title-ar" data-ar="" data-en=""></span>
+    </h2>
+    <div class="gold-ornament">
+      <div class="gold-ornament-line"></div>
+      <div class="gold-ornament-diamond"></div>
+      <div class="gold-ornament-line right"></div>
+    </div>
+    <p class="section-desc" data-ar="أسعار واضحة وشفافة — نطاق السعر حسب حجم العمل ومستوى التفاصيل المطلوبة" data-en="Clear, transparent pricing — ranges based on scope and complexity of each project.">أسعار واضحة وشفافة — نطاق السعر حسب حجم العمل ومستوى التفاصيل المطلوبة</p>
+  </div>
+
+  <div class="pricing-table-wrap reveal">
+    <table class="pricing-tbl">
+      <thead>
+        <tr>
+          <th data-ar="الخدمة" data-en="Service">الخدمة</th>
+          <th data-ar="السعر الأدنى" data-en="Min Price">السعر الأدنى</th>
+          <th data-ar="السعر الأعلى" data-en="Max Price">السعر الأعلى</th>
+          <th data-ar="وقت التنفيذ" data-en="Delivery">وقت التنفيذ</th>
+          <th data-ar="ملاحظة" data-en="Note">ملاحظة</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-highlight">
+          <td><span class="tbl-icon">🎓</span data-ar=" مشروع التخرج" data-en=" Graduation Project"> مشروع التخرج</td>
+          <td><span class="tbl-price tbl-low" data-ar="200 ريال" data-en="200 SAR">200 ريال</span></td>
+          <td><span class="tbl-price tbl-high">500 ريال</span></td>
+          <td><span class="tbl-time" data-ar="3–7 أيام" data-en="3–7 days">3–7 أيام</span></td>
+          <td><span class="tbl-note note-gold" data-ar="⭐ أعلى قيمة" data-en="⭐ Top Value">⭐ أعلى قيمة</span></td>
+        </tr>
+        <tr>
+          <td><span class="tbl-icon">🖥️</span> عرض تقديمي (PPT)</td>
+          <td><span class="tbl-price tbl-low" data-ar="80 ريال" data-en="80 SAR">80 ريال</span></td>
+          <td><span class="tbl-price tbl-high">200 ريال</span></td>
+          <td><span class="tbl-time" data-ar="1–3 أيام" data-en="1–3 days">1–3 أيام</span></td>
+          <td><span class="tbl-note note-hot">🔥 مطلوب</span></td>
+        </tr>
+        <tr>
+          <td><span class="tbl-icon">🔬</span> بحث علمي</td>
+          <td><span class="tbl-price tbl-low" data-ar="120 ريال" data-en="120 SAR">120 ريال</span></td>
+          <td><span class="tbl-price tbl-high" data-ar="350 ريال" data-en="350 SAR">350 ريال</span></td>
+          <td><span class="tbl-time">3–7 أيام</span></td>
+          <td><span class="tbl-note note-hot">🔥 مطلوب</span></td>
+        </tr>
+        <tr>
+          <td><span class="tbl-icon">📚</span> تلخيص كتاب</td>
+          <td><span class="tbl-price tbl-low" data-ar="60 ريال" data-en="60 SAR">60 ريال</span></td>
+          <td><span class="tbl-price tbl-high" data-ar="150 ريال" data-en="150 SAR">150 ريال</span></td>
+          <td><span class="tbl-time" data-ar="2–5 أيام" data-en="2–5 days">2–5 أيام</span></td>
+          <td><span class="tbl-note note-gray" data-ar="حسب الحجم" data-en="By size">حسب الحجم</span></td>
+        </tr>
+        <tr>
+          <td><span class="tbl-icon">📊</span> تصميم إنفوجرافيك</td>
+          <td><span class="tbl-price tbl-low" data-ar="50 ريال" data-en="50 SAR">50 ريال</span></td>
+          <td><span class="tbl-price tbl-high">120 ريال</span></td>
+          <td><span class="tbl-time" data-ar="1–2 يوم" data-en="1–2 days">1–2 يوم</span></td>
+          <td><span class="tbl-note note-green" data-ar="أعلى ربحية/وقت" data-en="Best ROI/time">أعلى ربحية/وقت</span></td>
+        </tr>
+        <tr>
+          <td><span class="tbl-icon">📄</span> مطوية تعليمية</td>
+          <td><span class="tbl-price tbl-low" data-ar="20 ريال" data-en="20 SAR">20 ريال</span></td>
+          <td><span class="tbl-price tbl-high" data-ar="40 ريال" data-en="40 SAR">40 ريال</span></td>
+          <td><span class="tbl-time" data-ar="6–12 ساعة" data-en="6–12 hours">6–12 ساعة</span></td>
+          <td><span class="tbl-note note-gray">منتج دخول مثالي</span></td>
+        </tr>
+        <tr>
+          <td><span class="tbl-icon">📝</span data-ar=" ورقة عمل" data-en=" Worksheet"> ورقة عمل</td>
+          <td><span class="tbl-price tbl-low" data-ar="15 ريال" data-en="15 SAR">15 ريال</span></td>
+          <td><span class="tbl-price tbl-high" data-ar="30 ريال" data-en="30 SAR">30 ريال</span></td>
+          <td><span class="tbl-time" data-ar="2–6 ساعات" data-en="2–6 hours">2–6 ساعات</span></td>
+          <td><span class="tbl-note note-gray" data-ar="حجم طلب مرتفع" data-en="High demand volume">حجم طلب مرتفع</span></td>
+        </tr>
+        <tr>
+          <td><span class="tbl-icon">🗺️</span> خارطة معرفية / ذهنية</td>
+          <td><span class="tbl-price tbl-low">15 ريال</span></td>
+          <td><span class="tbl-price tbl-high" data-ar="35 ريال" data-en="35 SAR">35 ريال</span></td>
+          <td><span class="tbl-time" data-ar="3–8 ساعات" data-en="3–8 hours">3–8 ساعات</span></td>
+          <td><span class="tbl-note note-gray">سريع التنفيذ</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="pricing-footnote reveal" data-ar="* الأسعار تقديرية وقد تتغير بناءً على متطلبات المشروع وعدد الصفحات والتفاصيل المطلوبة. تواصل معنا للحصول على سعر دقيق." data-en="* Prices are estimates and may vary based on project requirements, page count, and complexity. Contact us for an exact quote.">* الأسعار تقديرية وقد تتغير بناءً على متطلبات المشروع وعدد الصفحات والتفاصيل المطلوبة. تواصل معنا للحصول على سعر دقيق.</p>
+</section>
+
+<style>
+.pricing-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(201,169,106,0.15);
+}
+
+.pricing-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  font-family: var(--arabic);
+  min-width: 600px;
+}
+
+.pricing-tbl thead tr {
+  background: var(--dark);
+}
+
+.pricing-tbl th {
+  padding: 16px 22px;
+  text-align: right;
+  font-family: var(--arabic);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.pricing-tbl td {
+  padding: 15px 22px;
+  font-size: 0.9rem;
+  color: var(--dark);
+  border-bottom: 1px solid rgba(201,169,106,0.10);
+  vertical-align: middle;
+}
+
+.pricing-tbl tr:last-child td { border-bottom: none; }
+
+.pricing-tbl tbody tr {
+  transition: background 0.2s;
+}
+
+.pricing-tbl tbody tr:hover { background: var(--gold-pale); }
+.pricing-tbl tbody tr:nth-child(even) td { background: rgba(244,239,234,0.5); }
+.pricing-tbl tbody tr:nth-child(even):hover td { background: transparent; }
+.pricing-tbl tbody tr:hover td { background: transparent; }
+
+.row-highlight td {
+  background: rgba(201,169,106,0.05) !important;
+}
+
+.tbl-icon { margin-left: 8px; font-size: 1.1rem; }
+
+.tbl-price {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tbl-low { color: var(--green-deep); }
+.tbl-high { color: var(--gold); }
+
+.tbl-time {
+  font-size: 0.82rem;
+  color: var(--dark-soft);
+  white-space: nowrap;
+  background: var(--bg-light);
+  padding: 4px 10px;
+  border-radius: 50px;
+  border: 1px solid rgba(201,169,106,0.12);
+}
+
+.tbl-note {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+.note-hot { background: rgba(196,92,38,0.12); color: #C45C26; }
+.note-gold { background: var(--gold-pale); color: var(--gold); border: 1px solid rgba(201,169,106,0.3); }
+.note-green { background: var(--green-pale); color: var(--green-deep); }
+.note-gray { background: var(--bg-light); color: var(--dark-soft); }
+
+.pricing-footnote {
+  text-align: center;
+  font-family: var(--arabic);
+  font-size: 0.82rem;
+  color: var(--dark-soft);
+  margin-top: 22px;
+  font-style: italic;
+}
+</style>
+
+<!-- ══════════════════════════════════════════
+     PORTFOLIO SECTION
+══════════════════════════════════════════ -->
+<section id="portfolio" class="section">
+  <div class="section-head reveal">
+    <div class="section-eyebrow">Portfolio</div>
+    <h2 class="section-title">
+      <span data-ar="معرض أعمالنا" data-en="Our Portfolio">معرض أعمالنا</span>
+      <span class="section-title-ar" data-ar="Our Creative Works" data-en=""></span>
+    </h2>
+    <div class="gold-ornament">
+      <div class="gold-ornament-line"></div>
+      <div class="gold-ornament-diamond"></div>
+      <div class="gold-ornament-line right"></div>
+    </div>
+    <p class="section-desc" data-ar="نماذج مختارة من أعمالنا الأكاديمية الراقية التي صممناها لطلابنا" data-en="Selected samples of our premium academic work crafted for our students.">نماذج مختارة من أعمالنا الأكاديمية الراقية التي صممناها لطلابنا</p>
+  </div>
+
+  <div class="portfolio-grid">
+
+    <div class="portfolio-item reveal">
+      <div class="portfolio-cover" style="background:linear-gradient(145deg,#E8F5EE,#C8DDD5)">
+        <div class="portfolio-emoji">🖥️</div>
+        <span class="portfolio-cat" style="color:var(--green-deep)">Presentation</span>
+      </div>
+      <div class="portfolio-overlay">
+        <div>
+          <h4 data-ar="عروض تقديمية احترافية" data-en="Professional Presentations">عروض تقديمية احترافية</h4>
+          <p>Professional Academic Presentations</p>
+          <div class="view-btn" data-ar="مشاهدة ←" data-en="View →">مشاهدة ←</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="portfolio-item reveal reveal-delay-1">
+      <div class="portfolio-cover" style="background:linear-gradient(145deg,#FFF3E0,#FFE0B2)">
+        <div class="portfolio-emoji">📊</div>
+        <span class="portfolio-cat" style="color:#B8660A">Infographic</span>
+      </div>
+      <div class="portfolio-overlay">
+        <div>
+          <h4 data-ar="إنفوجرافيك معلوماتي" data-en="Informative Infographics">إنفوجرافيك معلوماتي</h4>
+          <p>Creative Infographic Designs</p>
+          <div class="view-btn">مشاهدة ←</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="portfolio-item reveal reveal-delay-2">
+      <div class="portfolio-cover" style="background:linear-gradient(145deg,#FCE4EC,#F8BBD0)">
+        <div class="portfolio-emoji">📚</div>
+        <span class="portfolio-cat" style="color:#B0406A">Study Materials</span>
+      </div>
+      <div class="portfolio-overlay">
+        <div>
+          <h4 data-ar="مواد دراسية مُنظمة" data-en="Organized Study Materials">مواد دراسية مُنظمة</h4>
+          <p>Organized Study Materials</p>
+          <div class="view-btn">مشاهدة ←</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="portfolio-item reveal">
+      <div class="portfolio-cover" style="background:linear-gradient(145deg,#EDE7F6,#D1C4E9)">
+        <div class="portfolio-emoji">🗺️</div>
+        <span class="portfolio-cat" style="color:#5E35B1">Mind Map</span>
+      </div>
+      <div class="portfolio-overlay">
+        <div>
+          <h4 data-ar="خرائط معرفية إبداعية" data-en="Creative Knowledge Maps">خرائط معرفية إبداعية</h4>
+          <p>Creative Knowledge Maps</p>
+          <div class="view-btn">مشاهدة ←</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="portfolio-item reveal reveal-delay-1">
+      <div class="portfolio-cover" style="background:linear-gradient(145deg,#E3F2FD,#BBDEFB)">
+        <div class="portfolio-emoji">🎓</div>
+        <span class="portfolio-cat" style="color:#1565C0">Graduation</span>
+      </div>
+      <div class="portfolio-overlay">
+        <div>
+          <h4 data-ar="مشاريع التخرج" data-en="Graduation Projects">مشاريع التخرج</h4>
+          <p>High School Graduation Projects</p>
+          <div class="view-btn">مشاهدة ←</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="portfolio-item reveal reveal-delay-2">
+      <div class="portfolio-cover" style="background:linear-gradient(145deg,#F9FBE7,#F0F4C3)">
+        <div class="portfolio-emoji">📄</div>
+        <span class="portfolio-cat" style="color:#6D8B00">Templates</span>
+      </div>
+      <div class="portfolio-overlay">
+        <div>
+          <h4 data-ar="قوالب أكاديمية" data-en="Academic Templates">قوالب أكاديمية</h4>
+          <p>Premium Academic Templates</p>
+          <div class="view-btn">مشاهدة ←</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     WHY LÈRNA SECTION
+══════════════════════════════════════════ -->
+<section id="why" class="section section-light">
+  <div class="section-head reveal">
+    <div class="section-eyebrow">Why Choose Us</div>
+    <h2 class="section-title">
+      لماذا تختار ليرنا؟
+      <span class="section-title-ar">Why Choose LÈRNA?</span>
+    </h2>
+    <div class="gold-ornament">
+      <div class="gold-ornament-line"></div>
+      <div class="gold-ornament-diamond"></div>
+      <div class="gold-ornament-line right"></div>
+    </div>
+  </div>
+
+  <div class="why-grid">
+
+    <div class="why-card reveal">
+      <div class="why-icon-wrap">🎨</div>
+      <h3 class="why-title" data-ar="تصاميم أكاديمية احترافية" data-en="Professional Academic Designs">تصاميم أكاديمية احترافية</h3>
+      <span class="why-title-en">Professional Academic Designs</span>
+      <p class="why-desc" data-ar="كل تصميم يعكس الجودة والاحترافية، نستخدم أحدث أدوات التصميم لنقدم لك عملاً يتفوق على التوقعات." data-en="Every design reflects quality and excellence — we use the latest design tools to deliver work that exceeds expectations.">كل تصميم يعكس الجودة والاحترافية، نستخدم أحدث أدوات التصميم لنقدم لك عملاً يتفوق على التوقعات.</p>
+    </div>
+
+    <div class="why-card reveal reveal-delay-1">
+      <div class="why-icon-wrap">🎓</div>
+      <h3 class="why-title" data-ar="خدمات موجهة للطلاب" data-en="Student-Friendly Services">خدمات موجهة للطلاب</h3>
+      <span class="why-title-en">Student-Friendly Services</span>
+      <p class="why-desc" data-ar="أسعار مدروسة تناسب ميزانية الطالب مع الحفاظ على أعلى معايير الجودة في كل مشروع." data-en="Thoughtful pricing that fits student budgets while maintaining the highest quality standards in every project.">أسعار مدروسة تناسب ميزانية الطالب مع الحفاظ على أعلى معايير الجودة في كل مشروع.</p>
+    </div>
+
+    <div class="why-card reveal reveal-delay-2">
+      <div class="why-icon-wrap">⚡</div>
+      <h3 class="why-title" data-ar="تسليم سريع وفي الموعد" data-en="Fast & On-Time Delivery">تسليم سريع وفي الموعد</h3>
+      <span class="why-title-en">Fast & On-Time Delivery</span>
+      <p class="why-desc" data-ar="نلتزم بمواعيد التسليم ونضمن وصول عملك في الوقت المحدد — لأننا نعلم قيمة وقتك الدراسي." data-en="We honor deadlines and guarantee your work arrives on time — because we understand the value of your study schedule.">نلتزم بمواعيد التسليم ونضمن وصول عملك في الوقت المحدد — لأننا نعلم قيمة وقتك الدراسي.</p>
+    </div>
+
+    <div class="why-card reveal reveal-delay-3">
+      <div class="why-icon-wrap">✨</div>
+      <h3 class="why-title" data-ar="أسلوب تعليمي عصري" data-en="Modern Educational Style">أسلوب تعليمي عصري</h3>
+      <span class="why-title-en">Modern Educational Style</span>
+      <p class="why-desc" data-ar="نواكب أحدث اتجاهات التصميم التعليمي العالمي لنقدم محتوى بصرياً مميزاً يترك أثراً." data-en="We follow the latest global educational design trends to deliver visually distinctive content that leaves a lasting impression.">نواكب أحدث اتجاهات التصميم التعليمي العالمي لنقدم محتوى بصرياً مميزاً يترك أثراً.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     PACKAGES SECTION
+══════════════════════════════════════════ -->
+<section id="packages" class="section">
+  <div class="section-head reveal">
+    <div class="section-eyebrow">Student Bundle</div>
+    <h2 class="section-title">
+      <span data-ar="باقة الطالب المتميز" data-en="Student Success Package">باقة الطالب المتميز</span>
+      <span class="section-title-ar"></span>
+    </h2>
+    <div class="gold-ornament">
+      <div class="gold-ornament-line"></div>
+      <div class="gold-ornament-diamond"></div>
+      <div class="gold-ornament-line right"></div>
+    </div>
+    <p class="section-desc" data-ar="احصل على أكثر بسعر أقل — باقة شاملة تجمع أهم الخدمات بسعر استثنائي" data-en="Get more for less — a comprehensive bundle combining our most sought-after services at an exceptional price.">احصل على أكثر بسعر أقل — باقة شاملة تجمع أهم الخدمات بسعر استثنائي</p>
+  </div>
+
+  <div class="packages-inner">
+    <div class="package-decoration package-decoration-1"></div>
+    <div class="package-decoration package-decoration-2"></div>
+    <div class="package-decoration package-decoration-3"></div>
+
+    <div class="package-card reveal">
+      <div class="package-top-accent"></div>
+      <div class="package-card-glow"></div>
+
+      <div class="package-tag" data-ar="⭐ الأفضل قيمةً" data-en="⭐ Best Value">⭐ الأفضل قيمةً</div>
+
+      <h3 class="package-name-en" data-ar="Student Success Package" data-en="Student Success Package">Student Success Package</h3>
+      <p class="package-name-ar" data-ar="باقة نجاح الطالب المتكاملة" data-en="Complete Student Success Bundle">باقة نجاح الطالب المتكاملة</p>
+
+      <ul class="package-items">
+        <li class="package-item">
+          <div class="package-item-icon">🖥️</div>
+          <div class="package-item-info">
+            <div class="package-item-name" data-ar="عرض تقديمي احترافي" data-en="Professional Presentation">عرض تقديمي احترافي</div>
+            <div class="package-item-name-en">Professional Presentation · 80–200 ريال</div>
+          </div>
+          <span class="package-item-check">✓</span>
+        </li>
+        <li class="package-item">
+          <div class="package-item-icon">📊</div>
+          <div class="package-item-info">
+            <div class="package-item-name">تصميم إنفوجرافيك</div>
+            <div class="package-item-name-en">Custom Infographic · 50–120 ريال</div>
+          </div>
+          <span class="package-item-check">✓</span>
+        </li>
+        <li class="package-item">
+          <div class="package-item-icon">🗺️</div>
+          <div class="package-item-info">
+            <div class="package-item-name">خارطة معرفية / ذهنية</div>
+            <div class="package-item-name-en">Knowledge Map · 15–35 ريال</div>
+          </div>
+          <span class="package-item-check">✓</span>
+        </li>
+      </ul>
+
+      <div class="package-pricing">
+        <div class="package-price-now">
+          <span class="price-label" data-ar="سعر الباقة المجمّعة" data-en="Bundle Price">سعر الباقة المجمّعة</span>
+          <div class="price-amount"><span class="price-currency">ر.س</span>150</div>
+        </div>
+        <div class="price-divider"></div>
+        <div class="price-value-note">
+          <span data-ar="245+ ريال" data-en="245+ SAR">245+ ريال</span>
+          بدلاً من سعر كل خدمة منفردة<br>
+          <strong style="color:var(--green-deep)" data-ar="وفّر أكثر من 38%" data-en="Save over 38%">وفّر أكثر من 38%</strong>
+        </div>
+      </div>
+
+      <a href="#order" class="btn-primary" style="width:100%;justify-content:center;font-size:1rem;padding:16px">
+        احصل على الباقة الآن ✦
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     QUICK ORDER / CTA SECTION
+══════════════════════════════════════════ -->
+<section id="order">
+  <div class="order-bg-rings">
+    <div class="order-ring order-ring-1"></div>
+    <div class="order-ring order-ring-2"></div>
+    <div class="order-ring order-ring-3"></div>
+  </div>
+
+  <div class="order-content reveal">
+    <div class="order-eyebrow">Quick Order</div>
+    <h2 class="order-title">
+      <span data-ar="ابدأ طلبك الآن" data-en="Start Your Order">ابدأ طلبك الآن</span>
+      <span class="order-title-ar" data-ar="Start Your Order Today" data-en=""></span>
+    </h2>
+    <p class="order-desc" data-ar="تواصل معنا الآن وسنساعدك في الحصول على تصميمك المثالي بأفضل جودة وأسرع وقت. نحن هنا من أجلك." data-en="Reach out now and we'll help you get your perfect design with the best quality in the fastest time. We're here for you.">تواصل معنا الآن وسنساعدك في الحصول على تصميمك المثالي بأفضل جودة وأسرع وقت. نحن هنا من أجلك.</p>
+
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <a href="https://wa.me/9660562490477" target="_blank" rel="noopener" class="btn-white">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span data-ar="اطلب عبر واتساب" data-en="Order via WhatsApp">اطلب عبر واتساب</span>
+      </a>
+    </div>
+    <p class="order-note" data-ar="متاحون للرد على استفساراتك · نستجيب في أسرع وقت ممكن" data-en="Available to answer your queries · We respond as quickly as possible">متاحون للرد على استفساراتك · نستجيب في أسرع وقت ممكن</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     PAYMENT METHODS SECTION
+══════════════════════════════════════════ -->
+<section id="payment" class="section section-light">
+  <div class="section-head reveal">
+    <div class="section-eyebrow" data-ar="طرق الدفع" data-en="Payment Methods">طرق الدفع</div>
+    <h2 class="section-title">
+      <span data-ar="ادفع بكل سهولة" data-en="Pay with Ease">ادفع بكل سهولة</span>
+      <span class="section-title-ar" data-ar="طرق دفع آمنة ومعتمدة" data-en="Secure & Trusted Payment Methods">طرق دفع آمنة ومعتمدة</span>
+    </h2>
+    <div class="gold-ornament">
+      <div class="gold-ornament-line"></div>
+      <div class="gold-ornament-diamond"></div>
+      <div class="gold-ornament-line right"></div>
+    </div>
+    <p class="section-desc" data-ar="تحويل بنكي مباشر وآمن — اختر الطريقة الأنسب لك وأرسل إيصال الدفع عبر واتساب" data-en="Direct and secure bank transfer — choose the method that suits you and send the payment receipt via WhatsApp">تحويل بنكي مباشر وآمن — اختر الطريقة الأنسب لك وأرسل إيصال الدفع عبر واتساب</p>
+  </div>
+
+  <div class="payment-cards-grid">
+
+    <!-- STC Bank -->
+    <div class="payment-card reveal" onclick="openPayModal('stc')">
+      <div class="pay-card-inner">
+        <div class="pay-logo-wrap stc-brand">
+          <div class="stc-logo-icon">
+            <svg viewBox="0 0 80 40" fill="none" xmlns="http://www.w3.org/2000/svg" width="90" height="45">
+              <rect width="80" height="40" rx="8" fill="#6B0FA8"/>
+              <text x="10" y="27" font-family="Arial, sans-serif" font-weight="900" font-size="18" fill="white" letter-spacing="1">STC</text>
+              <text x="46" y="27" font-family="Arial, sans-serif" font-weight="700" font-size="12" fill="#E8A0FF">pay</text>
+            </svg>
+          </div>
+        </div>
+        <div class="pay-card-info">
+          <h3 class="pay-card-name" data-ar="STC Pay / STC Bank" data-en="STC Pay / STC Bank">STC Pay / STC Bank</h3>
+          <p class="pay-card-desc" data-ar="تحويل لحظي عبر محفظة STC Pay أو التحويل البنكي" data-en="Instant transfer via STC Pay wallet or bank transfer">تحويل لحظي عبر محفظة STC Pay أو التحويل البنكي</p>
+          <div class="pay-card-tags">
+            <span class="pay-tag" data-ar="تحويل فوري" data-en="Instant Transfer">تحويل فوري</span>
+            <span class="pay-tag" data-ar="رقم الجوال" data-en="Mobile Number">رقم الجوال</span>
+          </div>
+        </div>
+        <div class="pay-card-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      </div>
+      <div class="pay-card-badge stc-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L13.09 8.26L19 7L15.45 12L19 17L13.09 15.74L12 22L10.91 15.74L5 17L8.55 12L5 7L10.91 8.26L12 2Z"/></svg>
+        <span data-ar="موصى به" data-en="Recommended">موصى به</span>
+      </div>
+    </div>
+
+    <!-- Al Rajhi Bank -->
+    <div class="payment-card reveal reveal-delay-1" onclick="openPayModal('rajhi')">
+      <div class="pay-card-inner">
+        <div class="pay-logo-wrap rajhi-brand">
+          <div class="rajhi-logo-icon">
+            <svg viewBox="0 0 80 40" fill="none" xmlns="http://www.w3.org/2000/svg" width="90" height="45">
+              <rect width="80" height="40" rx="8" fill="#006341"/>
+              <text x="8" y="16" font-family="Arial, sans-serif" font-weight="900" font-size="9" fill="white">الراجحي</text>
+              <text x="8" y="30" font-family="Arial, sans-serif" font-weight="700" font-size="8" fill="#A8D8C0">Al Rajhi Bank</text>
+              <rect x="62" y="8" width="14" height="24" rx="3" fill="#FFD700" opacity="0.9"/>
+            </svg>
+          </div>
+        </div>
+        <div class="pay-card-info">
+          <h3 class="pay-card-name" data-ar="مصرف الراجحي" data-en="Al Rajhi Bank">مصرف الراجحي</h3>
+          <p class="pay-card-desc" data-ar="تحويل بنكي مباشر عبر تطبيق الراجحي أو رقم الآيبان" data-en="Direct bank transfer via Al Rajhi app or IBAN number">تحويل بنكي مباشر عبر تطبيق الراجحي أو رقم الآيبان</p>
+          <div class="pay-card-tags">
+            <span class="pay-tag rajhi-tag" data-ar="IBAN / آيبان" data-en="IBAN Transfer">IBAN / آيبان</span>
+            <span class="pay-tag rajhi-tag" data-ar="تطبيق الراجحي" data-en="Al Rajhi App">تطبيق الراجحي</span>
+          </div>
+        </div>
+        <div class="pay-card-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Payment Steps -->
+  <div class="pay-steps-wrap reveal">
+    <h4 class="pay-steps-title" data-ar="كيفية إتمام الدفع" data-en="How to Complete Payment">كيفية إتمام الدفع</h4>
+    <div class="pay-steps">
+      <div class="pay-step">
+        <div class="pay-step-num">١</div>
+        <div class="pay-step-text" data-ar="اختر الخدمة وتواصل معنا عبر واتساب" data-en="Choose your service and contact us via WhatsApp">اختر الخدمة وتواصل معنا عبر واتساب</div>
+      </div>
+      <div class="pay-step-divider"></div>
+      <div class="pay-step">
+        <div class="pay-step-num">٢</div>
+        <div class="pay-step-text" data-ar="حوّل المبلغ عبر STC Pay أو الراجحي" data-en="Transfer the amount via STC Pay or Al Rajhi">حوّل المبلغ عبر STC Pay أو الراجحي</div>
+      </div>
+      <div class="pay-step-divider"></div>
+      <div class="pay-step">
+        <div class="pay-step-num">٣</div>
+        <div class="pay-step-text" data-ar="أرسل صورة الإيصال عبر واتساب لتأكيد الطلب" data-en="Send the receipt screenshot via WhatsApp to confirm your order">أرسل صورة الإيصال عبر واتساب لتأكيد الطلب</div>
+      </div>
+      <div class="pay-step-divider"></div>
+      <div class="pay-step">
+        <div class="pay-step-num">٤</div>
+        <div class="pay-step-text" data-ar="نبدأ العمل فوراً ونسلم في الموعد" data-en="We start immediately and deliver on time">نبدأ العمل فوراً ونسلم في الموعد</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Payment CSS ── -->
+<style>
+.payment-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  max-width: 820px;
+  margin: 0 auto 50px;
+}
+
+.payment-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  border: 1.5px solid rgba(201,169,106,0.15);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.payment-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201,169,106,0.04), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.payment-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(201,169,106,0.35);
+}
+
+.payment-card:hover::before { opacity: 1; }
+
+.pay-card-inner {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 28px 24px;
+}
+
+.pay-logo-wrap {
+  flex-shrink: 0;
+  width: 90px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+  overflow: hidden;
+}
+
+.payment-card:hover .pay-logo-wrap { transform: scale(1.05); }
+
+.stc-brand { background: linear-gradient(135deg, #7B1FC4, #6B0FA8); box-shadow: 0 4px 16px rgba(107,15,168,0.25); }
+.rajhi-brand { background: linear-gradient(135deg, #007A50, #006341); box-shadow: 0 4px 16px rgba(0,99,65,0.25); }
+
+.pay-card-info { flex: 1; min-width: 0; }
+
+.pay-card-name {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 5px;
+}
+
+.pay-card-desc {
+  font-family: var(--arabic);
+  font-size: 0.83rem;
+  color: var(--dark-soft);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.pay-card-tags {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.pay-tag {
+  font-family: var(--arabic);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 11px;
+  border-radius: 50px;
+  background: rgba(107,15,168,0.08);
+  color: #6B0FA8;
+  border: 1px solid rgba(107,15,168,0.15);
+}
+
+.rajhi-tag {
+  background: rgba(0,99,65,0.08);
+  color: #006341;
+  border-color: rgba(0,99,65,0.15);
+}
+
+.pay-card-arrow {
+  color: var(--gold);
+  opacity: 0.5;
+  transition: all 0.25s;
+  flex-shrink: 0;
+}
+
+.payment-card:hover .pay-card-arrow {
+  opacity: 1;
+  transform: translateX(-4px);
+}
+
+html[lang="en"] .payment-card:hover .pay-card-arrow {
+  transform: translateX(4px);
+}
+
+.pay-card-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, #6B0FA8, #8B2FC8);
+  color: white;
+  font-family: var(--arabic);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 50px;
+  box-shadow: 0 2px 8px rgba(107,15,168,0.30);
+}
+
+/* Payment Steps */
+.pay-steps-wrap {
+  max-width: 820px;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(201,169,106,0.15);
+  padding: 30px 32px;
+  box-shadow: var(--shadow-sm);
+}
+
+.pay-steps-title {
+  font-family: var(--arabic);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.pay-steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pay-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  flex: 1;
+  min-width: 120px;
+}
+
+.pay-step-num {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--green-pale), var(--gold-pale));
+  border: 1.5px solid rgba(201,169,106,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--arabic);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.pay-step-text {
+  font-family: var(--arabic);
+  font-size: 0.82rem;
+  color: var(--dark-soft);
+  line-height: 1.55;
+}
+
+.pay-step-divider {
+  width: 36px;
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  flex-shrink: 0;
+  margin-bottom: 34px;
+}
+
+html[lang="en"] .pay-step-divider {
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+
+@media (max-width: 600px) {
+  .pay-steps { flex-direction: column; align-items: flex-start; gap: 0; }
+  .pay-step { flex-direction: row; text-align: right; min-width: unset; gap: 14px; padding: 10px 0; }
+  .pay-step-divider { display: none; }
+  .pay-card-inner { flex-wrap: wrap; }
+}
+</style>
+
+<!-- ══════════════════════════════════════════
+     PAYMENT DETAIL MODAL (STC & Rajhi)
+══════════════════════════════════════════ -->
+<div class="modal-backdrop" id="pay-modal-backdrop" onclick="closePayModalOnOverlay(event)">
+  <div class="modal-box pay-modal-box">
+    <div class="modal-top-accent" id="pay-modal-accent"></div>
+    <button class="modal-close" onclick="closePayModal()" aria-label="إغلاق">✕</button>
+
+    <div class="pay-modal-logo-ring" id="pay-modal-logo-ring"></div>
+
+    <h2 class="modal-title-en" id="pay-modal-title-en"></h2>
+    <p class="modal-title-ar" id="pay-modal-title-ar"></p>
+
+    <div class="modal-ornament">
+      <div class="modal-ornament-line"></div>
+      <div class="modal-ornament-diamond"></div>
+      <div class="modal-ornament-line right"></div>
+    </div>
+
+    <!-- Account details rows -->
+    <div class="pay-details-list" id="pay-details-list"></div>
+
+    <!-- Copy feedback -->
+    <div class="copy-toast" id="copy-toast">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      <span id="copy-toast-text">تم النسخ!</span>
+    </div>
+
+    <div class="pay-modal-note" id="pay-modal-note"></div>
+
+    <a id="pay-modal-wa-btn" href="#" target="_blank" rel="noopener"
+       class="btn-primary" style="width:100%;justify-content:center;font-size:0.95rem;padding:14px;border-radius:12px;margin-top:6px">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span id="pay-modal-wa-text">أرسل إيصال الدفع</span>
+    </a>
+  </div>
+</div>
+
+<style>
+/* ── Pay Modal ── */
+.pay-modal-box {
+  max-width: 440px;
+  padding: clamp(28px,5vw,48px);
+}
+
+.pay-modal-logo-ring {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  border: 1px solid rgba(201,169,106,0.2);
+  position: relative;
+  font-size: 2.2rem;
+  overflow: hidden;
+}
+
+.pay-modal-logo-ring::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,169,106,0.10);
+}
+
+.pay-details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--bg-light);
+  border: 1px solid rgba(201,169,106,0.15);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.pay-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(201,169,106,0.10);
+  transition: background 0.2s;
+}
+
+.pay-detail-row:last-child { border-bottom: none; }
+.pay-detail-row:hover { background: var(--gold-pale); }
+
+.pay-detail-label {
+  font-family: var(--arabic);
+  font-size: 0.8rem;
+  color: var(--dark-soft);
+  font-weight: 500;
+  flex-shrink: 0;
+  min-width: 90px;
+}
+
+.pay-detail-value {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--dark);
+  letter-spacing: 0.03em;
+  flex: 1;
+  text-align: center;
+  direction: ltr;
+}
+
+.pay-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--white);
+  border: 1px solid rgba(201,169,106,0.3);
+  color: var(--gold);
+  font-family: var(--arabic);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.pay-copy-btn:hover { background: var(--gold); color: var(--white); border-color: var(--gold); }
+.pay-copy-btn:active { transform: scale(0.95); }
+
+.copy-toast {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: var(--green);
+  color: white;
+  font-family: var(--arabic);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 50px;
+  margin: 0 auto 14px;
+  width: fit-content;
+  animation: toastPop 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.copy-toast.show { display: flex; }
+
+@keyframes toastPop {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.pay-modal-note {
+  font-family: var(--arabic);
+  font-size: 0.82rem;
+  color: var(--dark-soft);
+  text-align: center;
+  line-height: 1.7;
+  background: var(--gold-pale);
+  border: 1px solid rgba(201,169,106,0.2);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  margin-bottom: 18px;
+}
+</style>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-main">
+
+    <div class="footer-brand-col">
+      <span class="footer-logo-en">LÈRNA</span>
+      <span class="footer-logo-ar">ليرنا</span>
+      <p class="footer-tagline">Digital Store | Student Services</p>
+      <p class="footer-desc" data-ar="نقدم خدمات رقمية طلابية احترافية — من التصاميم الأكاديمية إلى مشاريع التخرج. جودة راقية بأسعار تناسب الطلاب." data-en="We deliver professional digital student services — from academic designs to graduation projects. Premium quality at student-friendly prices.">نقدم خدمات رقمية طلابية احترافية — من التصاميم الأكاديمية إلى مشاريع التخرج. جودة راقية بأسعار تناسب الطلاب.</p>
+      <div class="social-links">
+        <a href="https://wa.me/9660562490477" class="social-link" title="WhatsApp" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+        <a href="https://instagram.com/lerna.sa" class="social-link" title="Instagram" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="mailto:hello@lerna.sa" class="social-link" title="Email">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <h4 class="footer-col-title" data-ar="خدماتنا" data-en="Our Services">خدماتنا</h4>
+      <ul class="footer-links-list">
+        <li><a href="#services" class="footer-link" data-ar="مطويات وأوراق عمل" data-en="Brochures & Worksheets">مطويات وأوراق عمل</a></li>
+        <li><a href="#services" class="footer-link" data-ar="مشروع التخرج" data-en="Graduation Project">مشروع التخرج</a></li>
+        <li><a href="#services" class="footer-link" data-ar="خرائط معرفية" data-en="Knowledge Maps">خرائط معرفية</a></li>
+        <li><a href="#services" class="footer-link" data-ar="عروض تقديمية" data-en="Presentations">عروض تقديمية</a></li>
+        <li><a href="#services" class="footer-link" data-ar="إنفوجرافيك وبحوث" data-en="Infographics & Research">إنفوجرافيك وبحوث</a></li>
+        <li><a href="#services" class="footer-link" data-ar="ملخص كتب" data-en="Book Summaries">ملخص كتب</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="footer-col-title" data-ar="روابط سريعة" data-en="Quick Links">روابط سريعة</h4>
+      <ul class="footer-links-list">
+        <li><a href="#hero" class="footer-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a></li>
+        <li><a href="#portfolio" class="footer-link" data-ar="معرض الأعمال" data-en="Portfolio">معرض الأعمال</a></li>
+        <li><a href="#why" class="footer-link">لماذا ليرنا</a></li>
+        <li><a href="#packages" class="footer-link">الباقات</a></li>
+        <li><a href="#order" class="footer-link" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</a></li>
+        <li><a href="#payment" class="footer-link" data-ar="طرق الدفع" data-en="Payment Methods">طرق الدفع</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-divider"></div>
+
+  <div class="footer-bottom">
+    <span class="footer-copyright" data-ar="© 2025 LÈRNA | ليرنا — جميع الحقوق محفوظة" data-en="© 2025 LÈRNA — All Rights Reserved">© 2025 LÈRNA | ليرنا — جميع الحقوق محفوظة</span>
+    <span class="footer-love">Designed with ♥ for Students</span>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════
+     GRADUATION PROJECT MODAL
+══════════════════════════════════════════ -->
+<div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <div class="modal-top-accent"></div>
+
+    <button class="modal-close" onclick="closeModal()" aria-label="إغلاق">✕</button>
+
+    <div class="modal-icon-ring">
+      <div class="modal-icon">🎓</div>
+    </div>
+
+    <h2 class="modal-title-en" id="modal-title">Graduation Project</h2>
+    <p class="modal-title-ar" data-ar="مشروع التخرج (المرحلة الثانوية)" data-en="Graduation Project (High School)">مشروع التخرج (المرحلة الثانوية)</p>
+
+    <div class="modal-ornament">
+      <div class="modal-ornament-line"></div>
+      <div class="modal-ornament-diamond"></div>
+      <div class="modal-ornament-line right"></div>
+    </div>
+
+    <div class="modal-price-section">
+      <div class="modal-price-original">
+        السعر العادي: <s data-ar="حتى 500 ريال" data-en="Up to 500 SAR">حتى 500 ريال</s>
+      </div>
+      <div class="modal-price-offer">
+        <span class="offer-label">🔥 أعلى قيمة</span>
+        <div class="offer-amount"><span class="offer-currency">ر.س</span>200</div>
+      </div>
+      <div class="modal-price-note">يبدأ من <strong style="color:var(--green-deep)">200 ريال</strong> — حسب حجم المشروع (تسليم 3–7 أيام)</div>
+    </div>
+
+    <p class="modal-desc" data-ar="مشروع تخرج ثانوي متكامل يشمل التصميم الاحترافي، الإخراج الفني، والعرض التقديمي. من أكثر الخدمات طلباً — أعلى قيمة في قائمة خدماتنا." data-en="A complete high-school graduation project including professional design, artistic production, and presentation. Our most requested — highest-value service.">مشروع تخرج ثانوي متكامل يشمل التصميم الاحترافي، الإخراج الفني، والعرض التقديمي. من أكثر الخدمات طلباً — أعلى قيمة في قائمة خدماتنا.</p>
+
+    <div class="modal-features">
+      <span class="modal-feature" data-ar="✓ تصميم احترافي" data-en="✓ Professional Design">✓ تصميم احترافي</span>
+      <span class="modal-feature" data-ar="✓ عرض تقديمي" data-en="✓ Presentation">✓ عرض تقديمي</span>
+      <span class="modal-feature" data-ar="✓ إخراج فني" data-en="✓ Artistic Production">✓ إخراج فني</span>
+      <span class="modal-feature" data-ar="✓ تسليم 3–7 أيام" data-en="✓ 3–7 Day Delivery">✓ تسليم 3–7 أيام</span>
+    </div>
+
+    <a href="https://wa.me/9660562490477?text=أريد الاستفسار عن مشروع التخرج - عرض المجموعات 250 ريال" 
+       target="_blank" rel="noopener"
+       class="btn-primary" 
+       style="width:100%;justify-content:center;font-size:1rem;padding:16px;border-radius:14px">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      اطلب مشروع التخرج الآن
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+/* ─── PARTICLES ─── */
+(function() {
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], animId;
+
+  const COLORS = ['#C9A96A', '#C9A96A', '#8FAF9D', '#DEC48E', '#B5C9BE'];
+  const COUNT = 70;
+  const CONNECTION_DIST = 120;
+
+  function init() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+
+    particles = [];
+    for (let i = 0; i < COUNT; i++) {
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: Math.random() * 1.5 + 0.5,
+        opacity: Math.random() * 0.5 + 0.15,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)]
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONNECTION_DIST) {
+          const alpha = (1 - dist / CONNECTION_DIST) * 0.12;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(201,169,106,${alpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw dots
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.opacity;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+
+      // Move
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < -10) p.x = W + 10;
+      if (p.x > W + 10) p.x = -10;
+      if (p.y < -10) p.y = H + 10;
+      if (p.y > H + 10) p.y = -10;
+    });
+
+    animId = requestAnimationFrame(draw);
+  }
+
+  init();
+  draw();
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { init(); }, 200);
+  });
+})();
+
+/* ─── SCROLL REVEAL ─── */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ─── NAVBAR SCROLL ─── */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+/* ─── MOBILE NAV ─── */
+function toggleMobileNav() {
+  const nav = document.getElementById('mobile-nav');
+  const btn = document.getElementById('hamburger');
+  nav.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+}
+
+function closeMobileNav() {
+  const nav = document.getElementById('mobile-nav');
+  const btn = document.getElementById('hamburger');
+  nav.classList.remove('open');
+  btn.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ─── NOTIFICATION BAR → SCROLL ─── */
+function scrollToGrad() {
+  const card = document.getElementById('grad-card');
+  if (!card) return;
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => {
+    card.style.outline = '2px solid var(--gold)';
+    card.style.outlineOffset = '4px';
+    setTimeout(() => {
+      card.style.outline = '';
+      card.style.outlineOffset = '';
+    }, 2000);
+  }, 700);
+}
+
+document.getElementById('notif-bar').addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') scrollToGrad();
+});
+
+/* ─── MODAL ─── */
+function openModal() {
+  const backdrop = document.getElementById('modal-backdrop');
+  backdrop.classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  const backdrop = document.getElementById('modal-backdrop');
+  backdrop.classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modal-backdrop').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+/* ─── GRADUATION CARD KEYBOARD ─── */
+document.getElementById('grad-card').addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    openModal();
+  }
+});
+
+/* ─── SMOOTH ANCHOR LINKS ─── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    const target = document.getElementById(id);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+
+/* ─── LANGUAGE TOGGLE ENGINE ─── */
+(function() {
+  const root    = document.getElementById('html-root');
+  const pill    = document.getElementById('lang-pill');
+  const toggle  = document.getElementById('lang-toggle');
+
+  // Measure pill widths dynamically
+  function getPillWidth(lang) {
+    const opt = toggle.querySelector('.lang-opt.' + lang);
+    return opt ? (opt.offsetWidth + 4) + 'px' : '38px';
+  }
+
+  function setLang(lang) {
+    const isAr = lang === 'ar';
+
+    // Fade out
+    document.body.style.transition = 'opacity 0.18s ease';
+    document.body.style.opacity    = '0';
+
+    setTimeout(() => {
+      // 1. Flip html attributes
+      root.lang = lang;
+      root.dir  = isAr ? 'rtl' : 'ltr';
+      document.title = isAr
+        ? 'LÈRNA | ليرنا — المتجر الرقمي للطلاب'
+        : 'LÈRNA — Digital Store for Students';
+
+      // 2. Swap body font direction class
+      document.body.style.direction  = isAr ? 'rtl' : 'ltr';
+      document.body.style.fontFamily = isAr
+        ? "var(--arabic)"
+        : "var(--sans)";
+
+      // 3. Swap all [data-ar] / [data-en] nodes
+      document.querySelectorAll('[data-ar]').forEach(el => {
+        const arText = el.getAttribute('data-ar');
+        const enText = el.getAttribute('data-en');
+        if (arText === '' || enText === '') {
+          // Toggle visibility for purely decorative dual-language elements
+          el.style.display = (isAr && enText === '') || (!isAr && arText === '') ? '' : 'none';
+          if ((isAr && arText !== '') || (!isAr && enText !== '')) el.style.display = '';
+          return;
+        }
+        el.textContent = isAr ? arText : enText;
+      });
+
+      // 4. Adjust nav-logo Arabic span visibility
+      const logoAr = document.querySelector('.nav-logo-ar');
+      if (logoAr) logoAr.style.display = isAr ? '' : 'none';
+
+      // 5. Move pill
+      const w = getPillWidth(lang);
+      if (isAr) {
+        pill.style.left   = 'auto';
+        pill.style.right  = '3px';
+        pill.style.width  = w;
+      } else {
+        pill.style.right  = 'auto';
+        pill.style.left   = '3px';
+        pill.style.width  = w;
+      }
+
+      // 6. Update all SAR labels (price small tags)
+      document.querySelectorAll('.card-price small, .tbl-price').forEach(el => {
+        if (el.textContent.includes('ريال') || el.textContent.includes('SAR')) {
+          // Already handled by data attributes on parent or left as-is
+        }
+      });
+
+      // 7. Swap table direction
+      document.querySelectorAll('.pricing-tbl th, .pricing-tbl td').forEach(el => {
+        el.style.textAlign = isAr ? 'right' : 'left';
+      });
+
+      // 8. Modal aria-label
+      const closeBtn = document.querySelector('.modal-close');
+      if (closeBtn) closeBtn.setAttribute('aria-label', isAr ? 'إغلاق' : 'Close');
+
+      // 9. Hamburger aria-label
+      const ham = document.getElementById('hamburger');
+      if (ham) ham.setAttribute('aria-label', isAr ? 'القائمة' : 'Menu');
+
+      // 10. "View" buttons in portfolio — handle arrow direction
+      document.querySelectorAll('.view-btn').forEach(el => {
+        if (!el.hasAttribute('data-ar')) {
+          el.textContent = isAr ? 'مشاهدة ←' : 'View →';
+        }
+      });
+
+      // 11. Save preference
+      try { localStorage.setItem('lerna-lang', lang); } catch(e) {}
+
+      // Fade back in
+      document.body.style.opacity = '1';
+    }, 180);
+  }
+
+  window.toggleLang = function() {
+    const current = root.lang || 'ar';
+    setLang(current === 'ar' ? 'en' : 'ar');
+  };
+
+  // Init pill position on load
+  window.addEventListener('load', () => {
+    const saved = (() => { try { return localStorage.getItem('lerna-lang'); } catch(e) { return null; } })();
+    const initLang = saved || 'ar';
+    if (initLang !== 'ar') {
+      setLang('en');
+    } else {
+      const w = getPillWidth('ar');
+      pill.style.right = '3px';
+      pill.style.left  = 'auto';
+      pill.style.width = w;
+    }
+  });
+})();
+
+/* ─── PAYMENT MODAL ─── */
+const PAY_DATA = {
+  stc: {
+    accentColor: 'linear-gradient(90deg,#6B0FA8,#9B3FD8,#6B0FA8)',
+    logoHtml: `<div style="background:linear-gradient(135deg,#7B1FC4,#6B0FA8);width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 80 40" width="60" height="30"><text x="4" y="26" font-family="Arial,sans-serif" font-weight="900" font-size="18" fill="white">STC</text><text x="47" y="26" font-family="Arial,sans-serif" font-size="12" fill="#E8A0FF">pay</text></svg></div>`,
+    titleEn: 'STC Pay / STC Bank',
+    titleAr: 'STC Pay / مصرف STC',
+    details: [
+      { labelAr: 'رقم الجوال',   labelEn: 'Mobile Number', value: '0562490477', copyable: true },
+      { labelAr: 'اسم المستفيد', labelEn: 'Account Name',  value: 'LÈRNA',      copyable: true },
+    ],
+    noteAr: '💜 حوّل عبر تطبيق STC Pay أو من خلال تطبيق مصرفك باستخدام رقم الجوال، ثم أرسل صورة الإيصال عبر واتساب.',
+    noteEn: '💜 Transfer via the STC Pay app or your bank app using the mobile number, then send the receipt screenshot via WhatsApp.',
+    waBtnAr: 'أرسل إيصال STC Pay عبر واتساب',
+    waBtnEn: 'Send STC Pay Receipt via WhatsApp',
+    waMsg: 'مرحباً، أريد إرسال إيصال الدفع عبر STC Pay 💜',
+  },
+  rajhi: {
+    accentColor: 'linear-gradient(90deg,#006341,#00A067,#006341)',
+    logoHtml: `<div style="background:linear-gradient(135deg,#007A50,#006341);width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;"><span style="color:#fff;font-weight:900;font-size:12px;font-family:Cairo,sans-serif;">الراجحي</span><span style="color:#A8D8C0;font-size:9px;font-family:Arial,sans-serif;">Al Rajhi</span></div>`,
+    titleEn: 'Al Rajhi Bank',
+    titleAr: 'مصرف الراجحي',
+    details: [
+      { labelAr: 'رقم الحساب',   labelEn: 'Account No.',  value: '123456789012',                    copyable: true  },
+      { labelAr: 'رقم الآيبان',  labelEn: 'IBAN',          value: 'SA00 8000 0000 6080 0123 4567',   copyable: true  },
+      { labelAr: 'اسم المستفيد', labelEn: 'Account Name',  value: 'LÈRNA',                           copyable: true  },
+      { labelAr: 'البنك',        labelEn: 'Bank',           value: 'Al Rajhi — مصرف الراجحي',        copyable: false },
+    ],
+    noteAr: '💚 حوّل عبر تطبيق الراجحي أو أي تطبيق بنكي باستخدام رقم الآيبان، ثم أرسل صورة الإيصال عبر واتساب.',
+    noteEn: '💚 Transfer via Al Rajhi app or any banking app using the IBAN, then send the receipt screenshot via WhatsApp.',
+    waBtnAr: 'أرسل إيصال الراجحي عبر واتساب',
+    waBtnEn: 'Send Al Rajhi Receipt via WhatsApp',
+    waMsg: 'مرحباً، أريد إرسال إيصال التحويل البنكي عبر الراجحي 💚',
+  }
+};
+
+let currentPayType = null;
+
+window.openPayModal = function(type) {
+  currentPayType = type;
+  const d = PAY_DATA[type];
+  const isAr = document.getElementById('html-root').lang !== 'en';
+
+  document.getElementById('pay-modal-accent').style.background = d.accentColor;
+  document.getElementById('pay-modal-logo-ring').innerHTML = d.logoHtml;
+  document.getElementById('pay-modal-title-en').textContent = d.titleEn;
+  document.getElementById('pay-modal-title-ar').textContent = d.titleAr;
+
+  const list = document.getElementById('pay-details-list');
+  list.innerHTML = d.details.map((row, i) => `
+    <div class="pay-detail-row">
+      <span class="pay-detail-label">${isAr ? row.labelAr : row.labelEn}</span>
+      <span class="pay-detail-value" id="pay-val-${i}">${row.value}</span>
+      ${row.copyable ? `<button class="pay-copy-btn" onclick="copyPayValue('${row.value.replace(/\s/g,'')}', this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+        ${isAr ? 'نسخ' : 'Copy'}
+      </button>` : ''}
+    </div>
+  `).join('');
+
+  document.getElementById('pay-modal-note').textContent = isAr ? d.noteAr : d.noteEn;
+
+  const waBtn = document.getElementById('pay-modal-wa-btn');
+  waBtn.href = `https://wa.me/9660562490477?text=${encodeURIComponent(d.waMsg)}`;
+  document.getElementById('pay-modal-wa-text').textContent = isAr ? d.waBtnAr : d.waBtnEn;
+
+  document.getElementById('pay-modal-backdrop').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closePayModal = function() {
+  document.getElementById('pay-modal-backdrop').classList.remove('visible');
+  document.body.style.overflow = '';
+  currentPayType = null;
+};
+
+window.closePayModalOnOverlay = function(e) {
+  if (e.target === document.getElementById('pay-modal-backdrop')) closePayModal();
+};
+
+window.copyPayValue = function(text, btn) {
+  const isAr = document.getElementById('html-root').lang !== 'en';
+  const doToast = () => {
+    const toast = document.getElementById('copy-toast');
+    document.getElementById('copy-toast-text').textContent = isAr ? '✓ تم النسخ بنجاح!' : '✓ Copied!';
+    toast.classList.add('show');
+    const orig = { bg: btn.style.background, color: btn.style.color, border: btn.style.borderColor };
+    btn.style.background = 'var(--green)';
+    btn.style.color = '#fff';
+    btn.style.borderColor = 'var(--green)';
+    setTimeout(() => {
+      toast.classList.remove('show');
+      btn.style.background = orig.bg;
+      btn.style.color = orig.color;
+      btn.style.borderColor = orig.border;
+    }, 2200);
+  };
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(doToast).catch(() => {});
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    doToast();
+  }
+};
+
+// Escape closes both modals
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closePayModal(); }
+});
+
+</script>
+</body>
+</html>
